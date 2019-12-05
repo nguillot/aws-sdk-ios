@@ -526,7 +526,7 @@ static NSString *_defaultService;
     
     NSMutableDictionary *query = [self query];
     query[(__bridge __strong id)kSecAttrAccount] = key;
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wunguarded-availability"
     if (floor(NSFoundationVersionNumber) > floor(1144.17)) { // iOS 9+
@@ -952,7 +952,7 @@ static NSString *_defaultService;
 
 #pragma mark -
 
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
 - (void)sharedPasswordWithCompletion:(void (^)(NSString *account, NSString *password, NSError *error))completion
 {
     NSString *domain = self.server.host;
@@ -1129,7 +1129,7 @@ static NSString *_defaultService;
         }
     }
     
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
     if (_authenticationPrompt) {
         if (floor(NSFoundationVersionNumber) > floor(1047.25)) { // iOS 8+ (NSFoundationVersionNumber_iOS_7_1)
             query[(__bridge __strong id)kSecUseOperationPrompt] = _authenticationPrompt;
@@ -1155,7 +1155,7 @@ static NSString *_defaultService;
     
     attributes[(__bridge __strong id)kSecValueData] = value;
     
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
     double iOS_7_1_or_10_9_2 = 1047.25; // NSFoundationVersionNumber_iOS_7_1
 #else
     double iOS_7_1_or_10_9_2 = 1056.13; // NSFoundationVersionNumber10_9_2
@@ -1184,7 +1184,7 @@ static NSString *_defaultService;
             }
             attributes[(__bridge __strong id)kSecAttrAccessControl] = (__bridge_transfer id)accessControl;
         } else {
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
             NSLog(@"%@", @"Unavailable 'Touch ID integration' on iOS versions prior to 8.0.");
 #else
             NSLog(@"%@", @"Unavailable 'Touch ID integration' on OS X versions prior to 10.10.");
@@ -1192,7 +1192,7 @@ static NSString *_defaultService;
         }
     } else {
         if (floor(NSFoundationVersionNumber) <= floor(iOS_7_1_or_10_9_2) && _accessibility == AWSUICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly) {
-#if TARGET_OS_IOS
+#if TARGET_OS_IOS && !TARGET_OS_MACCATALYST
             NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on iOS versions prior to 8.0.");
 #else
             NSLog(@"%@", @"Unavailable 'UICKeyChainStoreAccessibilityWhenPasscodeSetThisDeviceOnly' attribute on OS X versions prior to 10.10.");
